@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: hello-dr
+spec:
+  host: hello-srv.hello.svc.cluster.local
+  subsets:
+    - name: v1
+      labels:
+        app: hello-service
+        version: v1.0  # Соответствует labels в deployment-v1
+    - name: v2
+      labels:
+        app: hello-service
+        version: v2.0  # Соответствует labels в deployment-v2
