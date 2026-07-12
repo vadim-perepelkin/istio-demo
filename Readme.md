@@ -109,3 +109,14 @@
 5. Смотрим, как настроен iptables в поде для перехвата траффика:
    1. Заходим внутрь Minikube `minikube ssh`, получаем PID процесса, с которым запущен контейнер с hello-service `ps -ef | grep HelloService.jar`
    2. Смотрим настройки iptables `nsenter -t <PID> -n iptables -t nat -L -n -v` (отдельный network namespace пода), см. редирект траффика на порты 15001 и 15006
+
+
+# Очистка
+1. Удаляем все объекты из namespace hello: \
+   `kubectl delete deployment --all -n hello && \` \
+   `kubectl delete service --all -n hello && \` \
+   `kubectl delete virtualservice --all -n hello && \` \
+   `kubectl delete destinationrule --all -n hello && \` \
+   `kubectl delete gateway --all -n hello`
+2. Удаляем Istio: `istioctl uninstall -y --purge`
+3. Удаляем оставшиеся объекты из namespace istio-system: `kubectl delete all --all -n istio-system`
